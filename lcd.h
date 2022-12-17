@@ -46,4 +46,19 @@ void setCursor(uint8_t x, uint8_t y)
   instruction(0b10000000 | y << 6 | x);
 }
 
+void clearDisplay()
+{
+  instruction(0b00000001);
+}
+
+void returnHome()
+{
+  instruction(0b00000010);
+}
+
+void shiftDisplay(uint8_t direction)
+{
+  instruction(0b00010000 | direction << 3);
+}
+
 #endif
