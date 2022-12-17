@@ -25,11 +25,37 @@ void initDisplay()
 
   clearDisplay();
   returnHome();
-  letters("Imana");
-  setCursor(0, 1);
-  letters("<3 <3 <3");
+  letters("I");
+  HAL_Delay(500);
+  letters("m");
+  HAL_Delay(500);
+  letters("a");
+  HAL_Delay(500);
+  letters("n");
+  HAL_Delay(500);
+  letters("a");
+  HAL_Delay(500);
 }
+
+#define MSGLEN 3
+char msgloop[MSGLEN+1] = "<3 ";
+char msg[17] = { [0 ... 16] = 0 };
+int off = 0;
 
 void loopDisplay()
 {
+  clearDisplay();
+  returnHome();
+  letters("Imana");
+  setCursor(0, 1);
+  for(int i = 0; i < 16; i += MSGLEN)
+  {
+    for(int j = 0; j < MSGLEN; j++)
+    {
+        msg[i+j] = msgloop[(i+j+off) % MSGLEN];
+    }
+  }
+  letters(msg);
+  off++;
+  HAL_Delay(500);
 }
