@@ -1,9 +1,6 @@
 #ifndef __LCD_H
 #define __LCD_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include "stm32f1xx_hal.h"
 
 void tick(uint8_t RS)
@@ -48,9 +45,5 @@ void setCursor(uint8_t x, uint8_t y)
 {
   instruction(0b10000000 | y << 6 | x);
 }
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif
