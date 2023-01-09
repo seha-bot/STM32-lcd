@@ -13,6 +13,7 @@ void initDisplay()
 {
   HAL_TIM_Base_Start_IT(&htim3);
 
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1); //  board led (remove)
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, 0); //  Backlight -
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8,  1); //  Backlight +
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7,  0); //  R/W always 0
@@ -23,39 +24,15 @@ void initDisplay()
   instruction(0b00001110);  // Display control ( display on, cursor on, blinking off )
   instruction(0b00000110);  // Entry mode set ( increment, display shift off )
 
-  clearDisplay();
-  returnHome();
-  letters("I");
-  HAL_Delay(500);
-  letters("m");
-  HAL_Delay(500);
-  letters("a");
-  HAL_Delay(500);
-  letters("n");
-  HAL_Delay(500);
-  letters("a");
-  HAL_Delay(500);
+  introduce("BROJEVI");
 }
 
-#define MSGLEN 3
-char msgloop[MSGLEN+1] = "<3 ";
-char msg[17] = { [0 ... 16] = 0 };
-int off = 0;
-
+int scroll1 = 0;
+int scroll2 = 0;
 void loopDisplay()
 {
   clearDisplay();
-  returnHome();
-  letters("Imana");
-  setCursor(0, 1);
-  for(int i = 0; i < 16; i += MSGLEN)
-  {
-    for(int j = 0; j < MSGLEN; j++)
-    {
-        msg[i+j] = msgloop[(i+j+off) % MSGLEN];
-    }
-  }
-  letters(msg);
-  off++;
+  scroll("JEDAN ", &scroll1, 1, 0);
+  scroll("DVA ", &scroll2, -1, 1);
   HAL_Delay(500);
 }
